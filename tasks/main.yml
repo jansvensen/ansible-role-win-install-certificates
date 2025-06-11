@@ -1,7 +1,17 @@
 ---
+- name: Ensure certificate directory exists (if copying)
+  ansible.windows.win_file:
+    path: C:\Certificates
+    state: directory
+
+- name: Copy certificates to target (if copying from local control node)
+  ansible.windows.win_copy:
+    src: "{{ certificate.source_path }}"        # Path to the MSI on the Ansible control node
+    dest: "{{ certificate.target_path }}"       # Destination path on the Windows host
+
 - name: Import certificates to computer personal store
   ansible.windows.win_certificate_store:
-    path: '{{ certificate.path }}'
+    path: '{{ certificate.target_path }}'
     password: '{{ certificate.password }}'
     store_location: LocalMachine
     store_name: my
