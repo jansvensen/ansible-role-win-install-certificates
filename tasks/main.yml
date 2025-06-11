@@ -1,0 +1,12 @@
+---
+- name: Import certificates to computer personal store
+  ansible.windows.win_certificate_store:
+    path: '{{ certificate.path }}'
+    password: '{{ certificate.password }}'
+    store_location: LocalMachine
+    store_name: my
+    key_storage: machine
+    state: present
+  become: true
+  become_method: runas
+  become_user: SYSTEM
